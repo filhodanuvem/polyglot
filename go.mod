@@ -10,6 +10,7 @@ require (
 	github.com/cloudson/gitql v1.6.0 // indirect
 	github.com/go-enry/go-enry/v2 v2.5.2
 	github.com/jessevdk/go-flags v1.4.0 // indirect
+	github.com/labstack/gommon v0.3.0
 	github.com/olekukonko/tablewriter v0.0.4 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	golang.org/x/mod v0.3.0

@@ -9,6 +9,8 @@ import (
 	"strings"
 
 	"archive/zip"
+
+	"github.com/labstack/gommon/log"
 )
 
 type Downloader struct {
@@ -17,6 +19,7 @@ type Downloader struct {
 func (d *Downloader) Download(url, dest string) (string, error) {
 	parts := strings.Split(url, "/")
 	name := fmt.Sprintf("%s_%s", parts[len(parts)-2], parts[len(parts)-1])
+	zipName := fmt.Sprintf("%s.zip", name)
 	zipURL := fmt.Sprintf("%s/archive/master.zip", url)
 
 	resp, err := http.Get(zipURL)
@@ -26,7 +29,7 @@ func (d *Downloader) Download(url, dest string) (string, error) {
 
 	defer resp.Body.Close()
 
-	path := filepath.Join(dest, name)
+	path := filepath.Join(dest, zipName)
 	out, err := os.Create(path)
 	if err != nil {
 		return "", err
@@ -36,11 +39,14 @@ func (d *Downloader) Download(url, dest string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	unzip(path, filepath.Join(dest, name))
-	return path, nil
+	downloadedPath := filepath.Join(dest, name)
+	unzip(path, downloadedPath)
+
+	return downloadedPath, nil
 }
 
 func unzip(path, dest string) error {
+	log.Infof("Unzipping %s into %s", path, dest)
 	reader, err := zip.OpenReader(path)
 	if err != nil {
 		return err
@@ -79,6 +85,7 @@ func unzip(path, dest string) error {
 			return err
 		}
 	}
+	os.Remove(path)
 
 	return nil
 }

@@ -1,8 +1,9 @@
 package main
 
 import (
+	"log"
+
 	"github.com/filhodanuvem/polyglot/github"
-	"github.com/filhodanuvem/polyglot/language"
 	"github.com/filhodanuvem/polyglot/repository"
 )
 
@@ -15,13 +16,10 @@ func main() {
 	}
 
 	files := repository.GetFiles(path)
-	var lang string
-	for i := range files {
-		lang, err = language.DetectByFile(files[i])
-		if err != nil {
-			panic(err)
-		}
-
-		println(files[i], lang)
+	stats, err := repository.GetStatistics(files)
+	if err != nil {
+		panic(err)
 	}
+
+	log.Println(stats.FirstLanguage())
 }
