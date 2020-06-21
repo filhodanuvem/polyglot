@@ -17,6 +17,8 @@ func main() {
 	}
 
 	stats := getStatisticsSync(repos)
+	log.Println(stats)
+	// sort.Sort(stats)
 	log.Println(stats.FirstLanguage())
 }
 
