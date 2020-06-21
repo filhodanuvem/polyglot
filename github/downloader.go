@@ -17,6 +17,7 @@ type Downloader struct {
 }
 
 func (d *Downloader) Download(url, dest string) (string, error) {
+	log.Infof("Downloading %s into %s", url, dest)
 	parts := strings.Split(url, "/")
 	name := fmt.Sprintf("%s_%s", parts[len(parts)-2], parts[len(parts)-1])
 	zipName := fmt.Sprintf("%s.zip", name)

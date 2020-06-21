@@ -21,6 +21,18 @@ func (s *Statistics) FirstLanguage() string {
 	return lang
 }
 
+func (s *Statistics) Merge(stats *Statistics) {
+	for lang := range stats.counters {
+		if _, ok := s.counters[lang]; !ok {
+			s.counters = make(map[string]int)
+			s.counters[lang] = stats.counters[lang]
+			continue
+		}
+
+		s.counters[lang] += stats.counters[lang]
+	}
+}
+
 func GetStatistics(files []string) (Statistics, error) {
 	var stats Statistics
 	stats.counters = make(map[string]int)
