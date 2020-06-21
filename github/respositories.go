@@ -2,6 +2,7 @@ package github
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 )
@@ -12,9 +13,9 @@ type response struct {
 	}
 }
 
-func GetRepositories(profile string) ([]string, error) {
+func GetRepositories(username string) ([]string, error) {
 	var repos []string
-	resp, err := http.Get("https://api.github.com/search/repositories?q=user:filhodanuvem")
+	resp, err := http.Get(fmt.Sprintf("https://api.github.com/search/repositories?q=user:%s", username))
 	if err != nil {
 		return repos, err
 	}

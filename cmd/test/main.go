@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/filhodanuvem/polyglot/github"
@@ -35,6 +36,7 @@ func getStatisticsSync(repos []string) repository.Statistics {
 			panic(err)
 		}
 
+		fmt.Println(stats)
 		resultStats.Merge(&stats)
 		c++
 		if c == limit {
@@ -42,5 +44,6 @@ func getStatisticsSync(repos []string) repository.Statistics {
 		}
 	}
 
+	fmt.Println(resultStats)
 	return resultStats
 }

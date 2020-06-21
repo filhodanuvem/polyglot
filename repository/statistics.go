@@ -1,9 +1,17 @@
 package repository
 
-import "github.com/filhodanuvem/polyglot/language"
+import (
+	"fmt"
+
+	"github.com/filhodanuvem/polyglot/language"
+)
 
 type Statistics struct {
 	counters map[string]int
+}
+
+func (s *Statistics) String() string {
+	return fmt.Sprintf("%+v", s.counters)
 }
 
 func (s *Statistics) FirstLanguage() string {
@@ -22,9 +30,11 @@ func (s *Statistics) FirstLanguage() string {
 }
 
 func (s *Statistics) Merge(stats *Statistics) {
+	if s.counters == nil {
+		s.counters = make(map[string]int)
+	}
 	for lang := range stats.counters {
 		if _, ok := s.counters[lang]; !ok {
-			s.counters = make(map[string]int)
 			s.counters[lang] = stats.counters[lang]
 			continue
 		}
