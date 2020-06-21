@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"sort"
 
 	"github.com/filhodanuvem/polyglot/github"
 	"github.com/filhodanuvem/polyglot/repository"
@@ -18,7 +19,7 @@ func main() {
 
 	stats := getStatisticsSync(repos)
 	log.Println(stats)
-	// sort.Sort(stats)
+	sort.Sort(&stats)
 	log.Println(stats.FirstLanguage())
 }
 

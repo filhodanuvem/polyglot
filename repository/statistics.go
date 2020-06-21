@@ -2,26 +2,32 @@ package repository
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/filhodanuvem/polyglot/language"
 )
 
 type Statistics struct {
-	counters map[string]int
-	langs    []string
+	counters []counter
+	langs    map[string]int
+}
+
+type counter struct {
+	lang    string
+	counter int
 }
 
 // Implementing Sort interface
-func (s Statistics) Len() int {
+func (s *Statistics) Len() int {
 	return len(s.counters)
 }
 
-func (s Statistics) Less(i, j int) bool {
-	return s.counters[s.langs[i]] > s.counters[s.langs[j]]
+func (s *Statistics) Less(i, j int) bool {
+	return s.counters[i].counter > s.counters[j].counter
 }
 
-func (s Statistics) Swap(i, j int) {
-	s.counters[s.langs[i]], s.counters[s.langs[j]] = s.counters[s.langs[j]], s.counters[s.langs[i]]
+func (s *Statistics) Swap(i, j int) {
+	s.counters[i], s.counters[j] = s.counters[i], s.counters[i]
 }
 
 func (s *Statistics) String() string {
@@ -29,48 +35,46 @@ func (s *Statistics) String() string {
 }
 
 func (s *Statistics) FirstLanguage() string {
-	lang := ""
-	for i := range s.counters {
-		if s.counters[i] >= s.counters[lang] || lang == "" {
-			lang = i
-		}
-	}
+	sort.Sort(s)
 
-	if lang == "" {
-		return ""
-	}
-
-	return lang
+	return s.counters[0].lang
 }
 
 func (s *Statistics) Merge(stats *Statistics) {
-	if s.counters == nil {
-		s.counters = make(map[string]int)
-	}
-	for lang := range stats.counters {
-		if _, ok := s.counters[lang]; !ok {
-			s.counters[lang] = stats.counters[lang]
-			stats.langs = append(stats.langs, lang)
+	for i := range stats.counters {
+		lang := stats.counters[i].lang
+		if _, ok := s.langs[lang]; !ok {
+			s.counters = append(s.counters, stats.counters[i])
 			continue
 		}
 
-		s.counters[lang] += stats.counters[lang]
+		s.counters[stats.langs[lang]].counter += stats.counters[i].counter
 	}
 }
 
 func GetStatistics(files []string) (Statistics, error) {
 	var stats Statistics
-	stats.counters = make(map[string]int)
+	stats.langs = make(map[string]int)
 	for i := range files {
 		lang, err := language.DetectByFile(files[i])
 		if err != nil {
 			return stats, err
 		}
-		if _, ok := stats.counters[lang]; !ok {
-			stats.counters[lang] = 0
-			stats.langs = append(stats.langs, lang)
+		if _, ok := stats.langs[lang]; !ok {
+			stats.langs[lang] = len(stats.counters)
+			c := counter{
+				lang:    lang,
+				counter: 0,
+			}
+			stats.counters = append(stats.counters, c)
 		}
-		stats.counters[lang]++
+		stats.counters[stats.langs[lang]].counter++
+		// for j := range stats.counters {
+		// 	if stats.counters[j].lang == lang {
+		// 		stats.counters[j].counter++
+		// 		break
+		// 	}
+		// }
 	}
 
 	return stats, nil
