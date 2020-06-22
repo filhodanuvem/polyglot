@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"sort"
 
 	"github.com/filhodanuvem/polyglot/github"
 	"github.com/filhodanuvem/polyglot/repository"
@@ -12,15 +10,14 @@ import (
 var limit = 4
 
 func main() {
+	// log.SetOutput(ioutil.Discard)
 	repos, err := github.GetRepositories("filhodanuvem")
 	if err != nil {
 		panic(err)
 	}
 
 	stats := getStatisticsSync(repos)
-	log.Println(stats)
-	sort.Sort(&stats)
-	log.Println(stats.FirstLanguage())
+	log.Printf("%+v", stats.FirstLanguages(5))
 }
 
 func getStatisticsSync(repos []string) repository.Statistics {
@@ -38,8 +35,7 @@ func getStatisticsSync(repos []string) repository.Statistics {
 		if err != nil {
 			panic(err)
 		}
-
-		fmt.Println(stats)
+		// fmt.Println(resultStats)
 		resultStats.Merge(&stats)
 		c++
 		if c == limit {
@@ -47,6 +43,5 @@ func getStatisticsSync(repos []string) repository.Statistics {
 		}
 	}
 
-	fmt.Println(resultStats)
 	return resultStats
 }

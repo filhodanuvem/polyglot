@@ -27,23 +27,36 @@ func (s *Statistics) Less(i, j int) bool {
 }
 
 func (s *Statistics) Swap(i, j int) {
-	s.counters[i], s.counters[j] = s.counters[i], s.counters[i]
+	s.counters[i], s.counters[j] = s.counters[j], s.counters[i]
 }
 
 func (s *Statistics) String() string {
 	return fmt.Sprintf("%+v", s.counters)
 }
 
-func (s *Statistics) FirstLanguage() string {
+func (s *Statistics) FirstLanguages(length int) []string {
 	sort.Sort(s)
+	langs := make([]string, length)
+	j := 0
+	for i := range s.counters {
+		langs = append(langs, s.counters[i].lang)
+		j++
+		if j == length {
+			break
+		}
+	}
 
-	return s.counters[0].lang
+	return langs
 }
 
 func (s *Statistics) Merge(stats *Statistics) {
+	if s.langs == nil {
+		s.langs = make(map[string]int)
+	}
 	for i := range stats.counters {
 		lang := stats.counters[i].lang
 		if _, ok := s.langs[lang]; !ok {
+			s.langs[lang] = len(s.counters)
 			s.counters = append(s.counters, stats.counters[i])
 			continue
 		}
@@ -60,6 +73,9 @@ func GetStatistics(files []string) (Statistics, error) {
 		if err != nil {
 			return stats, err
 		}
+		if lang == "" {
+			continue
+		}
 		if _, ok := stats.langs[lang]; !ok {
 			stats.langs[lang] = len(stats.counters)
 			c := counter{
@@ -67,14 +83,9 @@ func GetStatistics(files []string) (Statistics, error) {
 				counter: 0,
 			}
 			stats.counters = append(stats.counters, c)
+			continue
 		}
 		stats.counters[stats.langs[lang]].counter++
-		// for j := range stats.counters {
-		// 	if stats.counters[j].lang == lang {
-		// 		stats.counters[j].counter++
-		// 		break
-		// 	}
-		// }
 	}
 
 	return stats, nil
