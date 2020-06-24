@@ -8,8 +8,9 @@ import (
 )
 
 type Statistics struct {
-	counters []counter
-	langs    map[string]int
+	counters   []counter
+	langs      map[string]int
+	reposCount int
 }
 
 type counter struct {
@@ -34,6 +35,10 @@ func (s *Statistics) String() string {
 	return fmt.Sprintf("%+v", s.counters)
 }
 
+func (s *Statistics) Length() int {
+	return s.reposCount
+}
+
 func (s *Statistics) FirstLanguages(length int) []string {
 	sort.Sort(s)
 	langs := make([]string, length)
@@ -50,6 +55,7 @@ func (s *Statistics) FirstLanguages(length int) []string {
 }
 
 func (s *Statistics) Merge(stats *Statistics) {
+	stats.reposCount++
 	if s.langs == nil {
 		s.langs = make(map[string]int)
 	}
@@ -88,5 +94,6 @@ func GetStatistics(files []string) (Statistics, error) {
 		stats.counters[stats.langs[lang]].counter++
 	}
 
+	stats.reposCount = 1
 	return stats, nil
 }

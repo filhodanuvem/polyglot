@@ -18,6 +18,7 @@ func main() {
 	}
 
 	stats := getStatisticsAsync(repos)
+	log.Printf("%+v", stats)
 	log.Printf("%+v", stats.FirstLanguages(5))
 }
 
@@ -69,12 +70,12 @@ func getStatisticsAsync(repos []string) repository.Statistics {
 			break
 		}
 	}
-
 	var resultStats repository.Statistics
-	select {
-	case stats := <-statsChan:
-		resultStats.Merge(&stats)
-		break
+	for i := 0; i < limit; i++ {
+		select {
+		case stats := <-statsChan:
+			resultStats.Merge(&stats)
+		}
 	}
 
 	return resultStats
