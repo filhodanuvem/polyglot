@@ -3,21 +3,20 @@ package github
 import (
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
 
 	"archive/zip"
-
-	"github.com/labstack/gommon/log"
 )
 
 type Downloader struct {
 }
 
 func (d *Downloader) Download(url, dest string) (string, error) {
-	log.Infof("Downloading %s into %s", url, dest)
+	log.Printf("Downloading %s into %s\n", url, dest)
 	parts := strings.Split(url, "/")
 	name := fmt.Sprintf("%s_%s", parts[len(parts)-2], parts[len(parts)-1])
 	zipName := fmt.Sprintf("%s.zip", name)
@@ -41,18 +40,19 @@ func (d *Downloader) Download(url, dest string) (string, error) {
 		return "", err
 	}
 	downloadedPath := filepath.Join(dest, name)
-	unzip(path, downloadedPath)
+	err = unzip(path, downloadedPath)
 
-	return downloadedPath, nil
+	return downloadedPath, err
 }
 
 func unzip(path, dest string) error {
-	log.Infof("Unzipping %s into %s", path, dest)
+	log.Printf("Unzipping %s into %s\n", path, dest)
 	reader, err := zip.OpenReader(path)
 	if err != nil {
 		return err
 	}
 	defer reader.Close()
+	defer os.Remove(path)
 
 	for i := range reader.File {
 		file := reader.File[i]
@@ -86,7 +86,6 @@ func unzip(path, dest string) error {
 			return err
 		}
 	}
-	os.Remove(path)
 
 	return nil
 }

@@ -7,7 +7,7 @@ import (
 	"github.com/filhodanuvem/polyglot/repository"
 )
 
-var limit = 4
+var limit = 100
 var tempPath = "/Users/cloudson/sources/github/polyglot/temp"
 
 func main() {
@@ -50,12 +50,18 @@ func getStatisticsSync(repos []string) repository.Statistics {
 func getStatisticsAsync(repos []string) repository.Statistics {
 	gh := github.Downloader{}
 	statsChan := make(chan repository.Statistics, limit)
-	c := 0
+	done := make(chan bool, limit)
+	count := 0
+
 	for i := range repos {
 		go func(repo string) {
+			defer func() {
+				done <- true
+			}()
 			path, err := gh.Download(repo, tempPath)
 			if err != nil {
-				panic(err)
+				log.Println(err)
+				return
 			}
 
 			files := repository.GetFiles(path)
@@ -65,17 +71,23 @@ func getStatisticsAsync(repos []string) repository.Statistics {
 			}
 			statsChan <- stats
 		}(repos[i])
-		c++
-		if c == limit {
+		count++
+		if count == limit {
 			break
 		}
 	}
+
+	log.Println("Waiting for done")
+	for range done {
+		<-done
+	}
+	close(statsChan)
+
+	log.Println("Waiting for statsChan")
 	var resultStats repository.Statistics
-	for i := 0; i < limit; i++ {
-		select {
-		case stats := <-statsChan:
-			resultStats.Merge(&stats)
-		}
+	for range statsChan {
+		stats := <-statsChan
+		resultStats.Merge(&stats)
 	}
 
 	return resultStats

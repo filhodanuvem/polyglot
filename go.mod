@@ -13,6 +13,7 @@ require (
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/jessevdk/go-flags v1.4.0 // indirect
 	github.com/labstack/gommon v0.3.0
+	github.com/libgit2/git2go v27.10.0+incompatible
 	github.com/olekukonko/tablewriter v0.0.4 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/spf13/viper v1.7.0
