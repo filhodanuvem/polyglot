@@ -62,7 +62,6 @@ func unzip(path, dest string, l *log.Logger) error {
 			return err
 		}
 
-		defer zippedFile.Close()
 		extractedFilePath := filepath.Join(
 			dest,
 			file.Name,
@@ -81,11 +80,12 @@ func unzip(path, dest string, l *log.Logger) error {
 		if err != nil {
 			return err
 		}
-
 		_, err = io.Copy(outputFile, zippedFile)
 		if err != nil {
 			return err
 		}
+		outputFile.Close()
+		zippedFile.Close()
 	}
 
 	return nil

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/filhodanuvem/polyglot/github"
@@ -8,12 +9,13 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var limit = 100
+var limitRepos = 100
+var limitChannels = 30
 var tempPath = "/Users/cloudson/sources/github/polyglot/temp"
 
 func main() {
 	l := log.New()
-	l.SetLevel(log.WarnLevel)
+	// l.SetLevel(log.WarnLevel)
 	l.SetOutput(os.Stdout)
 	repos, err := github.GetRepositories("filhodanuvem")
 	if err != nil {
@@ -21,7 +23,7 @@ func main() {
 	}
 
 	stats := getStatisticsAsync(repos, l)
-	l.Printf("First 5 languages\n%+v", stats.FirstLanguages(25))
+	fmt.Printf("First 5 languages\n%+v", stats.FirstLanguages(25))
 }
 
 func getStatisticsSync(repos []string, l *log.Logger) repository.Statistics {
@@ -31,17 +33,17 @@ func getStatisticsSync(repos []string, l *log.Logger) repository.Statistics {
 	for i := range repos {
 		path, err := gh.Download(repos[i], tempPath, l)
 		if err != nil {
-			panic(err)
+			l.Error(err)
 		}
 
 		files := repository.GetFiles(path, l)
 		stats, err := repository.GetStatistics(files)
 		if err != nil {
-			panic(err)
+			l.Error(err)
 		}
 		resultStats.Merge(&stats)
 		c++
-		if c == limit {
+		if c == limitRepos {
 			break
 		}
 	}
@@ -51,15 +53,18 @@ func getStatisticsSync(repos []string, l *log.Logger) repository.Statistics {
 
 func getStatisticsAsync(repos []string, l *log.Logger) repository.Statistics {
 	gh := github.Downloader{}
-	statsChan := make(chan repository.Statistics, limit)
-	done := make(chan bool, limit)
+	statsChan := make(chan repository.Statistics, limitRepos)
+	done := make(chan bool, limitRepos)
+	limitChan := make(chan bool, limitChannels)
 	count := 0
 
 	for i := range repos {
+		limitChan <- true
 		go func(repo string) {
 			defer func() {
 				done <- true
 			}()
+			<-limitChan
 			path, err := gh.Download(repo, tempPath, l)
 			if err != nil {
 				l.Error(err)
@@ -74,7 +79,7 @@ func getStatisticsAsync(repos []string, l *log.Logger) repository.Statistics {
 			statsChan <- stats
 		}(repos[i])
 		count++
-		if count == limit {
+		if count == limitRepos {
 			break
 		}
 	}

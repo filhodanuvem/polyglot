@@ -12,7 +12,7 @@ func GetFiles(path string, l *log.Logger) []string {
 	var files []string
 
 	filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
-		if info.IsDir() {
+		if info == nil || info.IsDir() {
 			return nil
 		}
 		files = append(files, path)
