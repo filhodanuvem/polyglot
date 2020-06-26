@@ -10,13 +10,13 @@ import (
 
 	"archive/zip"
 
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 )
 
 type Downloader struct {
 }
 
-func (d *Downloader) Download(url, dest string, l *logrus.Logger) (string, error) {
+func (d *Downloader) Download(url, dest string, l *log.Logger) (string, error) {
 	l.Printf("Downloading %s into %s\n", url, dest)
 	parts := strings.Split(url, "/")
 	name := fmt.Sprintf("%s_%s", parts[len(parts)-2], parts[len(parts)-1])
@@ -46,7 +46,7 @@ func (d *Downloader) Download(url, dest string, l *logrus.Logger) (string, error
 	return downloadedPath, err
 }
 
-func unzip(path, dest string, l *logrus.Logger) error {
+func unzip(path, dest string, l *log.Logger) error {
 	l.Printf("Unzipping %s into %s\n", path, dest)
 	reader, err := zip.OpenReader(path)
 	if err != nil {

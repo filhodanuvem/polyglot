@@ -1,16 +1,20 @@
 package main
 
 import (
+	"os"
+
 	"github.com/filhodanuvem/polyglot/github"
 	"github.com/filhodanuvem/polyglot/repository"
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 )
 
 var limit = 100
 var tempPath = "/Users/cloudson/sources/github/polyglot/temp"
 
 func main() {
-	l := logrus.New()
+	l := log.New()
+	l.SetLevel(log.WarnLevel)
+	l.SetOutput(os.Stdout)
 	repos, err := github.GetRepositories("filhodanuvem")
 	if err != nil {
 		l.Println(err)
@@ -20,7 +24,7 @@ func main() {
 	l.Printf("First 5 languages\n%+v", stats.FirstLanguages(25))
 }
 
-func getStatisticsSync(repos []string, l *logrus.Logger) repository.Statistics {
+func getStatisticsSync(repos []string, l *log.Logger) repository.Statistics {
 	gh := github.Downloader{}
 	var resultStats repository.Statistics
 	c := 0
@@ -45,7 +49,7 @@ func getStatisticsSync(repos []string, l *logrus.Logger) repository.Statistics {
 	return resultStats
 }
 
-func getStatisticsAsync(repos []string, l *logrus.Logger) repository.Statistics {
+func getStatisticsAsync(repos []string, l *log.Logger) repository.Statistics {
 	gh := github.Downloader{}
 	statsChan := make(chan repository.Statistics, limit)
 	done := make(chan bool, limit)
@@ -58,14 +62,14 @@ func getStatisticsAsync(repos []string, l *logrus.Logger) repository.Statistics 
 			}()
 			path, err := gh.Download(repo, tempPath, l)
 			if err != nil {
-				l.Println(err)
+				l.Error(err)
 				return
 			}
 
 			files := repository.GetFiles(path, l)
 			stats, err := repository.GetStatistics(files)
 			if err != nil {
-				l.Println(err)
+				l.Error(err)
 			}
 			statsChan <- stats
 		}(repos[i])
