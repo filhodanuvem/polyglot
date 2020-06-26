@@ -1,12 +1,13 @@
 package repository
 
 import (
-	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/sirupsen/logrus"
 )
 
-func GetFiles(path string, l *log.Logger) []string {
+func GetFiles(path string, l *logrus.Logger) []string {
 	l.Printf("Listing files of %s\n", path)
 	var files []string
 
