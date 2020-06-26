@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/filhodanuvem/polyglot/github"
 	"github.com/filhodanuvem/polyglot/repository"
@@ -11,28 +12,27 @@ var limit = 100
 var tempPath = "/Users/cloudson/sources/github/polyglot/temp"
 
 func main() {
-	// log.SetOutput(ioutil.Discard)
+	l := log.New(os.Stdout, "> ", 0)
 	repos, err := github.GetRepositories("filhodanuvem")
 	if err != nil {
-		panic(err)
+		l.Println(err)
 	}
 
-	stats := getStatisticsAsync(repos)
-	log.Printf("%+v", stats)
-	log.Printf("%+v", stats.FirstLanguages(5))
+	stats := getStatisticsAsync(repos, l)
+	l.Printf("First 5 languages\n%+v", stats.FirstLanguages(25))
 }
 
-func getStatisticsSync(repos []string) repository.Statistics {
+func getStatisticsSync(repos []string, l *log.Logger) repository.Statistics {
 	gh := github.Downloader{}
 	var resultStats repository.Statistics
 	c := 0
 	for i := range repos {
-		path, err := gh.Download(repos[i], tempPath)
+		path, err := gh.Download(repos[i], tempPath, l)
 		if err != nil {
 			panic(err)
 		}
 
-		files := repository.GetFiles(path)
+		files := repository.GetFiles(path, l)
 		stats, err := repository.GetStatistics(files)
 		if err != nil {
 			panic(err)
@@ -47,7 +47,7 @@ func getStatisticsSync(repos []string) repository.Statistics {
 	return resultStats
 }
 
-func getStatisticsAsync(repos []string) repository.Statistics {
+func getStatisticsAsync(repos []string, l *log.Logger) repository.Statistics {
 	gh := github.Downloader{}
 	statsChan := make(chan repository.Statistics, limit)
 	done := make(chan bool, limit)
@@ -58,16 +58,16 @@ func getStatisticsAsync(repos []string) repository.Statistics {
 			defer func() {
 				done <- true
 			}()
-			path, err := gh.Download(repo, tempPath)
+			path, err := gh.Download(repo, tempPath, l)
 			if err != nil {
-				log.Println(err)
+				l.Println(err)
 				return
 			}
 
-			files := repository.GetFiles(path)
+			files := repository.GetFiles(path, l)
 			stats, err := repository.GetStatistics(files)
 			if err != nil {
-				panic(err)
+				l.Println(err)
 			}
 			statsChan <- stats
 		}(repos[i])
@@ -77,13 +77,15 @@ func getStatisticsAsync(repos []string) repository.Statistics {
 		}
 	}
 
-	log.Println("Waiting for done")
-	for range done {
-		<-done
+	l.Println(">>>>>> Waiting for done")
+	for i := 0; i < count; i++ {
+		select {
+		case <-done:
+		}
 	}
 	close(statsChan)
 
-	log.Println("Waiting for statsChan")
+	l.Println(">>>>>>> Waiting for statsChan")
 	var resultStats repository.Statistics
 	for range statsChan {
 		stats := <-statsChan

@@ -39,19 +39,10 @@ func (s *Statistics) Length() int {
 	return s.reposCount
 }
 
-func (s *Statistics) FirstLanguages(length int) []string {
+func (s *Statistics) FirstLanguages(length int) []counter {
 	sort.Sort(s)
-	langs := make([]string, length)
-	j := 0
-	for i := range s.counters {
-		langs = append(langs, s.counters[i].lang)
-		j++
-		if j == length {
-			break
-		}
-	}
 
-	return langs
+	return s.counters[0:length]
 }
 
 func (s *Statistics) Merge(stats *Statistics) {

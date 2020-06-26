@@ -15,8 +15,8 @@ import (
 type Downloader struct {
 }
 
-func (d *Downloader) Download(url, dest string) (string, error) {
-	log.Printf("Downloading %s into %s\n", url, dest)
+func (d *Downloader) Download(url, dest string, l *log.Logger) (string, error) {
+	l.Printf("Downloading %s into %s\n", url, dest)
 	parts := strings.Split(url, "/")
 	name := fmt.Sprintf("%s_%s", parts[len(parts)-2], parts[len(parts)-1])
 	zipName := fmt.Sprintf("%s.zip", name)
@@ -40,13 +40,13 @@ func (d *Downloader) Download(url, dest string) (string, error) {
 		return "", err
 	}
 	downloadedPath := filepath.Join(dest, name)
-	err = unzip(path, downloadedPath)
+	err = unzip(path, downloadedPath, l)
 
 	return downloadedPath, err
 }
 
-func unzip(path, dest string) error {
-	log.Printf("Unzipping %s into %s\n", path, dest)
+func unzip(path, dest string, l *log.Logger) error {
+	l.Printf("Unzipping %s into %s\n", path, dest)
 	reader, err := zip.OpenReader(path)
 	if err != nil {
 		return err
