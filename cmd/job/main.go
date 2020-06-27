@@ -15,7 +15,7 @@ var tempPath = "/Users/cloudson/sources/github/polyglot/temp"
 
 func main() {
 	l := log.New()
-	l.SetLevel(log.WarnLevel)
+	// l.SetLevel(log.WarnLevel)
 	l.SetOutput(os.Stdout)
 	repos, err := github.GetRepositories("filhodanuvem")
 	if err != nil {
@@ -23,11 +23,10 @@ func main() {
 	}
 
 	stats := getStatisticsAsync(repos, l)
-	fmt.Printf("First 5 languages\n%+v", stats.FirstLanguages(25))
+	fmt.Printf("First 5 languages\n%+v", stats.FirstLanguages(5))
 }
 
 func getStatisticsAsync(repos []string, l *log.Logger) repository.Statistics {
-	gh := github.Downloader{}
 	statsChan := make(chan repository.Statistics, limitRepos)
 	done := make(chan bool, limitChannels)
 	count := 0
@@ -37,17 +36,10 @@ func getStatisticsAsync(repos []string, l *log.Logger) repository.Statistics {
 			defer func() {
 				done <- true
 			}()
-			path, err := gh.Download(repo, tempPath, l)
+			stats, err := getStatsFromRepo(repo, tempPath, l)
 			if err != nil {
 				l.Error(err)
 				return
-			}
-
-			files := repository.GetFiles(path, l)
-			stats, err := repository.GetStatistics(files)
-			l.Infof(">>Repo %s contains %+v", repo, stats)
-			if err != nil {
-				l.Error(err)
 			}
 			statsChan <- stats
 		}(repos[i])
@@ -77,19 +69,13 @@ func getStatisticsAsync(repos []string, l *log.Logger) repository.Statistics {
 }
 
 func getStatisticsSync(repos []string, l *log.Logger) repository.Statistics {
-	gh := github.Downloader{}
 	var resultStats repository.Statistics
 	c := 0
 	for i := range repos {
-		path, err := gh.Download(repos[i], tempPath, l)
+		stats, err := getStatsFromRepo(repos[i], tempPath, l)
 		if err != nil {
 			l.Error(err)
-		}
-
-		files := repository.GetFiles(path, l)
-		stats, err := repository.GetStatistics(files)
-		if err != nil {
-			l.Error(err)
+			continue
 		}
 		resultStats.Merge(&stats)
 		c++
@@ -99,4 +85,17 @@ func getStatisticsSync(repos []string, l *log.Logger) repository.Statistics {
 	}
 
 	return resultStats
+}
+
+func getStatsFromRepo(repo, tempPath string, l *log.Logger) (repository.Statistics, error) {
+	gh := github.Downloader{}
+	path, err := gh.Download(repo, tempPath, l)
+	if err != nil {
+		l.Error(err)
+	}
+
+	files := repository.GetFiles(path, l)
+	stats, err := repository.GetStatistics(files)
+
+	return stats, err
 }
