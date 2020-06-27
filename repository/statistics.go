@@ -7,6 +7,15 @@ import (
 	"github.com/filhodanuvem/polyglot/language"
 )
 
+var excludeList = map[string]bool{
+	"":            true,
+	"Text":        true,
+	"Markdown":    true,
+	"Ignore List": true,
+	"JSON":        true,
+	"Git Config":  true,
+}
+
 type Statistics struct {
 	counters   []counter
 	langs      map[string]int
@@ -42,11 +51,14 @@ func (s *Statistics) Length() int {
 func (s *Statistics) FirstLanguages(length int) []counter {
 	sort.Sort(s)
 
+	if length > len(s.counters) {
+		length = len(s.counters)
+	}
 	return s.counters[0:length]
 }
 
 func (s *Statistics) Merge(stats *Statistics) {
-	stats.reposCount++
+	s.reposCount++
 	if s.langs == nil {
 		s.langs = make(map[string]int)
 	}
@@ -57,8 +69,7 @@ func (s *Statistics) Merge(stats *Statistics) {
 			s.counters = append(s.counters, stats.counters[i])
 			continue
 		}
-
-		s.counters[stats.langs[lang]].counter += stats.counters[i].counter
+		s.counters[s.langs[lang]].counter += stats.counters[i].counter
 	}
 }
 
@@ -70,7 +81,7 @@ func GetStatistics(files []string) (Statistics, error) {
 		if err != nil {
 			return stats, err
 		}
-		if lang == "" {
+		if _, ok := excludeList[lang]; ok {
 			continue
 		}
 		if _, ok := stats.langs[lang]; !ok {
@@ -83,6 +94,9 @@ func GetStatistics(files []string) (Statistics, error) {
 			continue
 		}
 		stats.counters[stats.langs[lang]].counter++
+		if stats.counters[stats.langs[lang]].lang != lang {
+			panic("o que?")
+		}
 	}
 
 	stats.reposCount = 1
