@@ -94,9 +94,6 @@ func GetStatistics(files []string) (Statistics, error) {
 			continue
 		}
 		stats.counters[stats.langs[lang]].counter++
-		if stats.counters[stats.langs[lang]].lang != lang {
-			panic("o que?")
-		}
 	}
 
 	stats.reposCount = 1

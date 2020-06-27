@@ -8,7 +8,9 @@ import (
 )
 
 func GetFiles(path string, l *log.Logger) []string {
-	l.Printf("Listing files of %s\n", path)
+	l.WithFields(log.Fields{
+		"path": path,
+	}).Printf("Listing files of repo")
 	var files []string
 
 	filepath.Walk(path, func(path string, info os.FileInfo, err error) error {

@@ -62,7 +62,6 @@ func getStatisticsAsync(repos []string, l *log.Logger) repository.Statistics {
 	for range statsChan {
 		stats := <-statsChan
 		resultStats.Merge(&stats)
-		l.Infof(">>Merge %+v making %+v", stats, resultStats)
 	}
 
 	return resultStats
