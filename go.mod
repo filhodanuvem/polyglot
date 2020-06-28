@@ -16,6 +16,7 @@ require (
 	github.com/libgit2/git2go v27.10.0+incompatible
 	github.com/olekukonko/tablewriter v0.0.4 // indirect
 	github.com/sirupsen/logrus v1.6.0
+	github.com/spf13/cobra v1.0.0
 	github.com/spf13/viper v1.7.0
 	github.com/wcharczuk/go-chart v2.0.1+incompatible
 	gopkg.in/bsm/ratelimit.v1 v1.0.0-20160220154919-db14e161995a // indirect
