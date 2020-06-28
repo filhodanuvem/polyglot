@@ -23,7 +23,7 @@ jobs:
       run:  go build -o polyglot main.go
     
     - name: Run polyglot
-      run: ./polyglot --username=cloudson
+      run: ./polyglot --username=filhodanuvem
     
     - uses: actions/upload-artifact@master
       name: Generating artifact
