@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"fmt"
@@ -14,9 +14,6 @@ var limitRepos = 100
 var limitChannels = 30
 var tempPath = "/Users/cloudson/sources/github/polyglot/temp"
 
-var logVerbosity string
-var outputFile string
-
 var logLevels = map[string]log.Level{
 	"debug":   log.DebugLevel,
 	"info":    log.InfoLevel,
@@ -25,43 +22,31 @@ var logLevels = map[string]log.Level{
 	"fatal":   log.FatalLevel,
 }
 
-var rootCmd = &cobra.Command{
-	Use:   "Polyglot",
-	Short: "Polyglot tells you the (programming) languages that you speak",
-	Run: func(cmd *cobra.Command, args []string) {
-		l := log.New()
-		if level, ok := logLevels[logVerbosity]; ok {
-			l.SetLevel(level)
-		}
-
-		l.SetOutput(os.Stdout)
-		if outputFile != "" {
-			file, err := os.OpenFile(outputFile, os.O_WRONLY|os.O_CREATE, 0644)
-			if err != nil {
-				panic(err)
-			}
-			defer file.Close()
-			l.SetOutput(file)
-		}
-
-		repos, err := github.GetRepositories("filhodanuvem")
-		if err != nil {
-			l.Println(err)
-		}
-
-		stats := getStatisticsAsync(repos, l)
-		fmt.Printf("First 5 languages\n%+v", stats.FirstLanguages(5))
-	},
-}
-
-func main() {
-	rootCmd.PersistentFlags().StringVar(&logVerbosity, "log", "fatal", fmt.Sprintf("Log verbosity, options %s", logLevels))
-	rootCmd.PersistentFlags().StringVar(&outputFile, "output", "", "Path to log in a file")
-
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+func Run(cmd *cobra.Command, args []string) {
+	l := log.New()
+	logVerbosity, _ := cmd.Flags().GetString("log")
+	if level, ok := logLevels[logVerbosity]; ok {
+		l.SetLevel(level)
 	}
+
+	l.SetOutput(os.Stdout)
+	outputFile, _ := cmd.Flags().GetString("output")
+	if outputFile != "" {
+		file, err := os.OpenFile(outputFile, os.O_WRONLY|os.O_CREATE, 0644)
+		if err != nil {
+			panic(err)
+		}
+		defer file.Close()
+		l.SetOutput(file)
+	}
+
+	repos, err := github.GetRepositories("filhodanuvem")
+	if err != nil {
+		l.Println(err)
+	}
+
+	stats := getStatisticsAsync(repos, l)
+	fmt.Printf("First 5 languages\n%+v", stats.FirstLanguages(5))
 }
 
 func getStatisticsAsync(repos []string, l *log.Logger) repository.Statistics {

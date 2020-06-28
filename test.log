@@ -1,0 +1,93 @@
+time="2020-06-28T23:48:35+01:00" level=info msg=">>>>>> Waiting for terminated"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/libgit2"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/examie"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/Gandalf"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/awesome-php-jobs"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/Phartitura"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/gitql"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/treinando-unit-tests-php"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/FARpa"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/dotfiles"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/cloudblocks"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/pizzeria"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/udacity-android"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/filhodanuvem-site"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/SolrSkeleton"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/DataTablesBundle"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/queroprogramaremportugal"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/cloudson.github.io.old"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/queroserprogramador"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/lingo"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/SymfonyQueue"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/podcast-mimetype-proposal"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/cloudson.github.io"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/Saturno"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/SimpleAnnotation"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/7languages7weeks"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/Bocejo"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/modrate-helm"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/qsp"
+time="2020-06-28T23:48:35+01:00" level=info msg="Downloading repo" dest=/Users/cloudson/sources/github/polyglot/temp repo="https://github.com/filhodanuvem/cloudexam-deploy"
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_7languages7weeks from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_7languages7weeks.zip
+time="2020-06-28T23:48:36+01:00" level=error msg="zip: not a valid zip file"
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_7languages7weeks
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_modrate-helm from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_modrate-helm.zip
+time="2020-06-28T23:48:36+01:00" level=error msg="zip: not a valid zip file"
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_modrate-helm
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_queroprogramaremportugal from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_queroprogramaremportugal.zip
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_queroprogramaremportugal
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_dotfiles from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_dotfiles.zip
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_dotfiles
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_udacity-android from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_udacity-android.zip
+time="2020-06-28T23:48:36+01:00" level=error msg="zip: not a valid zip file"
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_udacity-android
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_FARpa from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_FARpa.zip
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_SymfonyQueue from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_SymfonyQueue.zip
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_awesome-php-jobs from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_awesome-php-jobs.zip
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_cloudexam-deploy from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_cloudexam-deploy.zip
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_awesome-php-jobs
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_cloudexam-deploy
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_FARpa
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_qsp from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_qsp.zip
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_SymfonyQueue
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_qsp
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_lingo from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_lingo.zip
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_examie from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_examie.zip
+time="2020-06-28T23:48:36+01:00" level=error msg="zip: not a valid zip file"
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_lingo
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_examie
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_podcast-mimetype-proposal from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_podcast-mimetype-proposal.zip
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_podcast-mimetype-proposal
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_SimpleAnnotation from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_SimpleAnnotation.zip
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_SimpleAnnotation
+time="2020-06-28T23:48:36+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_Gandalf from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_Gandalf.zip
+time="2020-06-28T23:48:36+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_Gandalf
+time="2020-06-28T23:48:37+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_queroserprogramador from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_queroserprogramador.zip
+time="2020-06-28T23:48:37+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_queroserprogramador
+time="2020-06-28T23:48:37+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_pizzeria from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_pizzeria.zip
+time="2020-06-28T23:48:37+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_DataTablesBundle from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_DataTablesBundle.zip
+time="2020-06-28T23:48:37+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_Bocejo from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_Bocejo.zip
+time="2020-06-28T23:48:37+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_pizzeria
+time="2020-06-28T23:48:37+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_Bocejo
+time="2020-06-28T23:48:37+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_DataTablesBundle
+time="2020-06-28T23:48:37+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_filhodanuvem-site from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_filhodanuvem-site.zip
+time="2020-06-28T23:48:37+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_filhodanuvem-site
+time="2020-06-28T23:48:37+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_Saturno from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_Saturno.zip
+time="2020-06-28T23:48:37+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_Saturno
+time="2020-06-28T23:48:37+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_Phartitura from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_Phartitura.zip
+time="2020-06-28T23:48:37+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_Phartitura
+time="2020-06-28T23:48:37+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_gitql from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_gitql.zip
+time="2020-06-28T23:48:37+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_gitql
+time="2020-06-28T23:48:37+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_treinando-unit-tests-php from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_treinando-unit-tests-php.zip
+time="2020-06-28T23:48:37+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_treinando-unit-tests-php
+time="2020-06-28T23:48:37+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_cloudblocks from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_cloudblocks.zip
+time="2020-06-28T23:48:38+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_cloudblocks
+time="2020-06-28T23:48:38+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_cloudson.github.io.old from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_cloudson.github.io.old.zip
+time="2020-06-28T23:48:38+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_cloudson.github.io from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_cloudson.github.io.zip
+time="2020-06-28T23:48:38+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_cloudson.github.io.old
+time="2020-06-28T23:48:38+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_cloudson.github.io
+time="2020-06-28T23:48:38+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_libgit2 from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_libgit2.zip
+time="2020-06-28T23:48:39+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_libgit2
+time="2020-06-28T23:48:43+01:00" level=info msg="Unzipping repo" dest=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_SolrSkeleton from=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_SolrSkeleton.zip
+time="2020-06-28T23:48:43+01:00" level=info msg="Listing files of repo" path=/Users/cloudson/sources/github/polyglot/temp/filhodanuvem_SolrSkeleton
+time="2020-06-28T23:48:43+01:00" level=info msg=">>>>>>> Waiting for statsChan"
