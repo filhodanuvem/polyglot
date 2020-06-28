@@ -16,6 +16,8 @@ var rootCmd = &cobra.Command{
 }
 
 func main() {
+	rootCmd.Flags().StringP("username", "u", "", "Username")
+	rootCmd.MarkFlagRequired("username")
 	rootCmd.PersistentFlags().StringP("log", "l", "fatal", "Log verbosity, options [debug, info, warning, error, fatal]")
 	rootCmd.PersistentFlags().StringP("output", "o", "", "Path to log in a file")
 

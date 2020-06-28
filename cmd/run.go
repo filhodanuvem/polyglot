@@ -40,11 +40,14 @@ func Run(cmd *cobra.Command, args []string) {
 		l.SetOutput(file)
 	}
 
-	repos, err := github.GetRepositories("filhodanuvem")
+	username, err := cmd.Flags().GetString("username")
+	if err != nil {
+		panic(err)
+	}
+	repos, err := github.GetRepositories(username)
 	if err != nil {
 		l.Println(err)
 	}
-
 	stats := getStatisticsAsync(repos, l)
 	fmt.Printf("First 5 languages\n%+v", stats.FirstLanguages(5))
 }
