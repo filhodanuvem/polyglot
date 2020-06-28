@@ -15,6 +15,7 @@ var limitChannels = 30
 var tempPath = "/Users/cloudson/sources/github/polyglot/temp"
 
 var logVerbosity string
+var outputFile string
 
 var logLevels = map[string]log.Level{
 	"debug":   log.DebugLevel,
@@ -34,6 +35,15 @@ var rootCmd = &cobra.Command{
 		}
 
 		l.SetOutput(os.Stdout)
+		if outputFile != "" {
+			file, err := os.OpenFile(outputFile, os.O_WRONLY|os.O_CREATE, 0644)
+			if err != nil {
+				panic(err)
+			}
+			defer file.Close()
+			l.SetOutput(file)
+		}
+
 		repos, err := github.GetRepositories("filhodanuvem")
 		if err != nil {
 			l.Println(err)
@@ -45,7 +55,8 @@ var rootCmd = &cobra.Command{
 }
 
 func main() {
-	rootCmd.PersistentFlags().StringVar(&logVerbosity, "log", "fatal", "")
+	rootCmd.PersistentFlags().StringVar(&logVerbosity, "log", "fatal", fmt.Sprintf("Log verbosity, options %s", logLevels))
+	rootCmd.PersistentFlags().StringVar(&outputFile, "output", "", "Path to log in a file")
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
