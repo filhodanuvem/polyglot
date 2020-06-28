@@ -1,0 +1,32 @@
+name: CI
+on: 
+  push:
+    branches:
+    - master
+  pull_request: 
+    branches:
+    - master
+jobs:
+  build-linux:
+    name: Build linux
+    runs-on: ubuntu-19.04
+    steps:
+    - name: Set up Go 1.14
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.14
+      id: go
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v1
+    
+    - name: Build linux
+      run: go build . -t polyglot
+    
+    - name: Run polyglot
+      run: ./polyglot --username=cloudson
+    
+    - uses: actions/upload-artifact@master
+      name: Generating artifact
+      with:
+        name: polyglot-linux64
+        path: ./polyglot
