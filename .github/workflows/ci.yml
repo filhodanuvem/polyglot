@@ -20,7 +20,7 @@ jobs:
       uses: actions/checkout@v1
     
     - name: Build linux
-      run: go build . -t polyglot
+      run:  go build -o polyglot main.go
     
     - name: Run polyglot
       run: ./polyglot --username=cloudson
