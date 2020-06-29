@@ -12,7 +12,6 @@ import (
 
 var limitRepos = 100
 var limitChannels = 30
-var tempPath = "/tmp/polyglot"
 
 var logLevels = map[string]log.Level{
 	"debug":   log.DebugLevel,
@@ -48,11 +47,12 @@ func Run(cmd *cobra.Command, args []string) {
 	if err != nil {
 		l.Println(err)
 	}
-	stats := getStatisticsSync(repos, l)
+	tempPath, _ := cmd.Flags().GetString("path")
+	stats := getStatisticsSync(tempPath, repos, l)
 	fmt.Printf("First 5 languages\n%+v", stats.FirstLanguages(5))
 }
 
-func getStatisticsAsync(repos []string, l *log.Logger) repository.Statistics {
+func getStatisticsAsync(tempPath string, repos []string, l *log.Logger) repository.Statistics {
 	statsChan := make(chan repository.Statistics, limitRepos)
 	terminated := make(chan bool, limitChannels)
 	count := 0
@@ -93,7 +93,7 @@ func getStatisticsAsync(repos []string, l *log.Logger) repository.Statistics {
 	return resultStats
 }
 
-func getStatisticsSync(repos []string, l *log.Logger) repository.Statistics {
+func getStatisticsSync(tempPath string, repos []string, l *log.Logger) repository.Statistics {
 	var resultStats repository.Statistics
 	c := 0
 	for i := range repos {
