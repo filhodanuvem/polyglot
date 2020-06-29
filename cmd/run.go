@@ -12,7 +12,7 @@ import (
 
 var limitRepos = 100
 var limitChannels = 30
-var tempPath = "/Users/cloudson/sources/github/polyglot/temp"
+var tempPath = "/tmp/polyglot"
 
 var logLevels = map[string]log.Level{
 	"debug":   log.DebugLevel,
@@ -48,7 +48,7 @@ func Run(cmd *cobra.Command, args []string) {
 	if err != nil {
 		l.Println(err)
 	}
-	stats := getStatisticsAsync(repos, l)
+	stats := getStatisticsSync(repos, l)
 	fmt.Printf("First 5 languages\n%+v", stats.FirstLanguages(5))
 }
 
@@ -113,6 +113,9 @@ func getStatisticsSync(repos []string, l *log.Logger) repository.Statistics {
 }
 
 func getStatsFromRepo(repo, tempPath string, l *log.Logger) (repository.Statistics, error) {
+	if _, err := os.Stat(tempPath); os.IsNotExist(err) {
+		os.MkdirAll(tempPath, os.ModePerm)
+	}
 	gh := github.Downloader{}
 	path, err := gh.Download(repo, tempPath, l)
 	if err != nil {
