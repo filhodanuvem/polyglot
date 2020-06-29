@@ -1,7 +1,7 @@
 # Polyglot ![CI](https://github.com/filhodanuvem/polyglot/workflows/CI/badge.svg)
 
 What are your favorite programming languages? 👅
-Polyglot tells you based in an user, what are those languages.
+Polyglot tells you that based in a github username.
 
 # How to use
 
