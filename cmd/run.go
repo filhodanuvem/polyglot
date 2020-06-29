@@ -49,7 +49,7 @@ func Run(cmd *cobra.Command, args []string) {
 	}
 	tempPath, _ := cmd.Flags().GetString("path")
 	stats := getStatisticsSync(tempPath, repos, l)
-	fmt.Printf("First 5 languages\n%+v", stats.FirstLanguages(5))
+	fmt.Printf("First 5 languages\n%+v\n", stats.FirstLanguages(5))
 }
 
 func getStatisticsAsync(tempPath string, repos []string, l *log.Logger) repository.Statistics {
