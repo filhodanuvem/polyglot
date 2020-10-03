@@ -2,7 +2,7 @@ package repository
 
 import "testing"
 
-func est_MergeOneStatsShouldCountCorrectly(t *testing.T) {
+func Test_MergeOneStatsShouldCountCorrectly(t *testing.T) {
 	stats := Statistics{
 		counters: []counter{counter{lang: "PHP", counter: 2}},
 		langs:    map[string]int{"PHP": 0},
