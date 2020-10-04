@@ -11,6 +11,10 @@ func TestDetectByFile(t *testing.T) {
 
 	language, err := DetectByFile("../testdata/mock_file.js")
 
+	if err != nil {
+		t.Errorf("Should not fail to load test file")
+	}
+
 	if language != "JavaScript" {
 		t.Errorf("Should detect JavasScript language")
 	}
