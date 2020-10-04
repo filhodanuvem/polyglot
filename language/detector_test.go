@@ -18,4 +18,14 @@ func TestDetectByFile(t *testing.T) {
 	if language != "JavaScript" {
 		t.Errorf("Should detect JavasScript language")
 	}
+
+	language, err = DetectByFile("../testdata/invalid_file")
+
+	if err != nil {
+		t.Errorf("Should not fail to load invalid file")
+	}
+
+	if language != "" {
+		t.Errorf("Should not detect any language")
+	}
 }
