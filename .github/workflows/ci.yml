@@ -1,9 +1,9 @@
 name: CI
-on: 
+on:
   push:
     branches:
     - master
-  pull_request: 
+  pull_request:
     branches:
     - master
 jobs:
@@ -20,10 +20,13 @@ jobs:
 
     - name: Build linux
       run:  go build -o polyglot main.go
-    
+
+    - name: Run tests
+      run: go test ./cmd ./github ./language ./repository -v
+
     - name: Run polyglot
       run: ./polyglot --username=filhodanuvem --log=info
-    
+
     - uses: actions/upload-artifact@master
       name: Generating artifact
       with:
