@@ -26,8 +26,8 @@ type Statistics struct {
 }
 
 type Counter struct {
-	Lang    string `json:"languages"`
-	Counter int    `json:"languages"`
+	Lang    string `json:"language"`
+	Counter int    `json:"counter"`
 }
 
 // Implementing Sort interface
