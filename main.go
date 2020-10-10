@@ -20,7 +20,7 @@ func main() {
 	rootCmd.Flags().StringP("path", "p", "/tmp/polyglot", "Path where to download the repositories")
 	rootCmd.PersistentFlags().StringP("log", "l", "fatal", "Log verbosity, options [debug, info, warning, error, fatal]")
 	rootCmd.PersistentFlags().StringP("output", "o", "", "Path to log in a file")
-	rootCmd.Flags().BoolP("server", "s", false, "Start a API server for polyglot")
+	rootCmd.Flags().BoolP("server", "s", false, "Run polyglot API Server")
 	rootCmd.PersistentFlags().StringP("host", "", "127.0.0.1", "IP address for the server (default \"127.0.0.1\")")
 	rootCmd.PersistentFlags().StringP("port", "", "8080", "Port for the server (default \"8080\")")
 
