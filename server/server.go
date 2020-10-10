@@ -48,7 +48,16 @@ func getLanguages(w http.ResponseWriter, req *http.Request) {
 
 	repos, err := github.GetRepositories(username)
 	if err != nil {
-		fmt.Println("error:", err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(`{"error": "` + err.Error() + `"} `))
+		fmt.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusInternalServerError)
+		return
+	}
+
+	if len(repos) < 1 {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte(`{"error": "This user has no public repositories"} `))
+		fmt.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusNotFound)
 		return
 	}
 
@@ -66,6 +75,7 @@ func getLanguages(w http.ResponseWriter, req *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(`{"error": "` + err.Error() + `"} `))
 		fmt.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusInternalServerError)
 		return
 	}
