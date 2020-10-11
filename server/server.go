@@ -18,12 +18,21 @@ type Response struct {
 	Username  string               `json:"user"`
 }
 
-func getLanguages(w http.ResponseWriter, req *http.Request, tempPath string) {
+type Config struct {
+	Port     string
+	Host     string
+	TempPath string
+	Log      *logrus.Logger
+}
+
+func getLanguages(w http.ResponseWriter, req *http.Request, config Config) {
+
+	l := config.Log
 
 	if req.Method != "GET" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		w.Write([]byte(`{"error": "Method Not Allowed"}`))
-		fmt.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusMethodNotAllowed)
+		l.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusMethodNotAllowed)
 		return
 	}
 
@@ -42,7 +51,7 @@ func getLanguages(w http.ResponseWriter, req *http.Request, tempPath string) {
 	if len(username) <= 0 {
 		w.WriteHeader(http.StatusUnprocessableEntity)
 		w.Write([]byte(`{"error": "Missing username!"}`))
-		fmt.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusUnprocessableEntity)
+		l.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusUnprocessableEntity)
 		return
 	}
 
@@ -50,20 +59,18 @@ func getLanguages(w http.ResponseWriter, req *http.Request, tempPath string) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"error": "` + err.Error() + `"} `))
-		fmt.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusInternalServerError)
+		l.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusInternalServerError)
 		return
 	}
 
 	if len(repos) < 1 {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte(`{"error": "This user has no public repositories"} `))
-		fmt.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusNotFound)
+		l.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusNotFound)
 		return
 	}
 
-	l := logrus.New()
-
-	stats := stats.GetStatisticsAsync(tempPath, repos, l)
+	stats := stats.GetStatisticsAsync(config.TempPath, repos, config.Log)
 	firstLanguages := stats.FirstLanguages(int(limit))
 
 	response := &Response{
@@ -76,27 +83,29 @@ func getLanguages(w http.ResponseWriter, req *http.Request, tempPath string) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"error": "` + err.Error() + `"} `))
-		fmt.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusInternalServerError)
+		l.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusInternalServerError)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
 	w.Write(responseJSON)
 
-	fmt.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusOK)
+	l.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusOK)
 }
 
-func Serve(host string, port string, tempPath string) {
+func Serve(config Config) {
+
+	l := config.Log
 
 	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-		getLanguages(w, req, tempPath)
+		getLanguages(w, req, config)
 	})
-	serverAddress := host + ":" + port
+	serverAddress := config.Host + ":" + config.Port
 
-	listener, err := net.Listen("tcp", ":"+port)
+	listener, err := net.Listen("tcp", ":"+config.Port)
 
 	if err != nil {
-		fmt.Println(err.Error())
+		l.Error(err)
 		return
 	}
 	listener.Close()
@@ -110,6 +119,6 @@ func Serve(host string, port string, tempPath string) {
 	fmt.Printf("\nServer started at http://%v\n\n", serverAddress)
 	serverErr := http.ListenAndServe(serverAddress, nil)
 	if serverErr != nil {
-		fmt.Println(serverErr.Error())
+		l.Error(serverErr)
 	}
 }

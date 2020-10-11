@@ -45,7 +45,11 @@ func Run(cmd *cobra.Command, args []string) {
 	if useServer {
 		host, _ := cmd.Flags().GetString("host")
 		port, _ := cmd.Flags().GetString("port")
-		server.Serve(host, port, tempPath)
+		server.Serve(server.Config{
+			Host:     host,
+			Port:     port,
+			TempPath: tempPath,
+			Log:      l})
 	} else {
 		username, err := cmd.Flags().GetString("username")
 		if err != nil {
