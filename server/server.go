@@ -59,7 +59,7 @@ func getLanguages(w http.ResponseWriter, req *http.Request, config Config) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"error": "` + err.Error() + `"} `))
-		l.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusInternalServerError)
+		l.Errorf("%v - %v - %v \n", req.Method, req.URL, http.StatusInternalServerError)
 		return
 	}
 
@@ -83,7 +83,7 @@ func getLanguages(w http.ResponseWriter, req *http.Request, config Config) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"error": "` + err.Error() + `"} `))
-		l.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusInternalServerError)
+		l.Errorf("%v - %v - %v \n", req.Method, req.URL, http.StatusInternalServerError)
 		return
 	}
 
