@@ -52,7 +52,7 @@ func Run(cmd *cobra.Command, args []string) {
 			panic(err)
 		}
 		if username == "" {
-			fmt.Println("required flag(s) \"username\" not set\n")
+			fmt.Println("required flag(s) \"username\" not set")
 			cmd.Help()
 			os.Exit(1)
 		}
