@@ -5,7 +5,8 @@ import (
 	"os"
 
 	"github.com/filhodanuvem/polyglot/github"
-	"github.com/filhodanuvem/polyglot/repository"
+	"github.com/filhodanuvem/polyglot/server"
+	"github.com/filhodanuvem/polyglot/stats"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -38,92 +39,33 @@ func Run(cmd *cobra.Command, args []string) {
 		defer file.Close()
 		l.SetOutput(file)
 	}
-
-	username, err := cmd.Flags().GetString("username")
-	if err != nil {
-		panic(err)
-	}
-	repos, err := github.GetRepositories(username)
-	if err != nil {
-		l.Println(err)
-	}
 	tempPath, _ := cmd.Flags().GetString("path")
-	stats := getStatisticsAsync(tempPath, repos, l)
-	fmt.Printf("First 5 languages\n%+v\n", stats.FirstLanguages(5))
-}
+	useServer, _ := cmd.Flags().GetBool("server")
 
-func getStatisticsAsync(tempPath string, repos []string, l *log.Logger) repository.Statistics {
-	statsChan := make(chan repository.Statistics, limitRepos)
-	terminated := make(chan bool, limitChannels)
-	count := 0
-
-	for i := range repos {
-		go func(repo string) {
-			defer func() {
-				terminated <- true
-			}()
-			stats, err := getStatsFromRepo(repo, tempPath, l)
-			if err != nil {
-				l.Error(err)
-				return
-			}
-			statsChan <- stats
-		}(repos[i])
-		count++
-		if count == limitRepos {
-			break
-		}
-	}
-
-	l.Println(">>>>>> Waiting for terminated")
-	for i := 0; i < count; i++ {
-		select {
-		case <-terminated:
-		}
-	}
-	close(statsChan)
-
-	l.Println(">>>>>>> Waiting for statsChan")
-	var resultStats repository.Statistics
-	for range statsChan {
-		stats := <-statsChan
-		resultStats.Merge(&stats)
-	}
-
-	return resultStats
-}
-
-func getStatisticsSync(tempPath string, repos []string, l *log.Logger) repository.Statistics {
-	var resultStats repository.Statistics
-	c := 0
-	for i := range repos {
-		stats, err := getStatsFromRepo(repos[i], tempPath, l)
+	if useServer {
+		host, _ := cmd.Flags().GetString("host")
+		port, _ := cmd.Flags().GetString("port")
+		server.Serve(server.Config{
+			Host:     host,
+			Port:     port,
+			TempPath: tempPath,
+			Log:      l})
+	} else {
+		username, err := cmd.Flags().GetString("username")
 		if err != nil {
-			l.Error(err)
-			continue
+			panic(err)
 		}
-		resultStats.Merge(&stats)
-		c++
-		if c == limitRepos {
-			break
+		if username == "" {
+			fmt.Println("required flag(s) \"username\" not set")
+			cmd.Help()
+			os.Exit(1)
 		}
+		repos, err := github.GetRepositories(username)
+		if err != nil {
+			l.Println(err)
+		}
+		stats := stats.GetStatisticsAsync(tempPath, repos, l)
+		fmt.Printf("First 5 languages\n%+v\n", stats.FirstLanguages(5))
+
 	}
-
-	return resultStats
-}
-
-func getStatsFromRepo(repo, tempPath string, l *log.Logger) (repository.Statistics, error) {
-	if _, err := os.Stat(tempPath); os.IsNotExist(err) {
-		os.MkdirAll(tempPath, os.ModePerm)
-	}
-	gh := github.Downloader{}
-	path, err := gh.Download(repo, tempPath, l)
-	if err != nil {
-		l.Error(err)
-	}
-
-	files := repository.GetFiles(path, l)
-	stats, err := repository.GetStatistics(files)
-
-	return stats, err
 }

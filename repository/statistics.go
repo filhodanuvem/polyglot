@@ -8,23 +8,26 @@ import (
 )
 
 var excludeList = map[string]bool{
-	"":            true,
-	"Text":        true,
-	"Markdown":    true,
-	"Ignore List": true,
-	"JSON":        true,
-	"Git Config":  true,
+	"":                          true,
+	"Text":                      true,
+	"Markdown":                  true,
+	"Ignore List":               true,
+	"JSON":                      true,
+	"Git Config":                true,
+	"XML Property List counter": true,
+	"Gradle":                    true,
+	"XML":                       true,
 }
 
 type Statistics struct {
-	counters   []counter
+	counters   []Counter
 	langs      map[string]int
 	reposCount int
 }
 
-type counter struct {
-	lang    string
-	counter int
+type Counter struct {
+	Lang    string `json:"language"`
+	Counter int    `json:"counter"`
 }
 
 // Implementing Sort interface
@@ -33,7 +36,7 @@ func (s *Statistics) Len() int {
 }
 
 func (s *Statistics) Less(i, j int) bool {
-	return s.counters[i].counter > s.counters[j].counter
+	return s.counters[i].Counter > s.counters[j].Counter
 }
 
 func (s *Statistics) Swap(i, j int) {
@@ -48,7 +51,7 @@ func (s *Statistics) Length() int {
 	return s.reposCount
 }
 
-func (s *Statistics) FirstLanguages(length int) []counter {
+func (s *Statistics) FirstLanguages(length int) []Counter {
 	sort.Sort(s)
 
 	if length > len(s.counters) {
@@ -63,13 +66,13 @@ func (s *Statistics) Merge(stats *Statistics) {
 		s.langs = make(map[string]int)
 	}
 	for i := range stats.counters {
-		lang := stats.counters[i].lang
+		lang := stats.counters[i].Lang
 		if _, ok := s.langs[lang]; !ok {
 			s.langs[lang] = len(s.counters)
 			s.counters = append(s.counters, stats.counters[i])
 			continue
 		}
-		s.counters[s.langs[lang]].counter += stats.counters[i].counter
+		s.counters[s.langs[lang]].Counter += stats.counters[i].Counter
 	}
 }
 
@@ -86,14 +89,14 @@ func GetStatistics(files []string) (Statistics, error) {
 		}
 		if _, ok := stats.langs[lang]; !ok {
 			stats.langs[lang] = len(stats.counters)
-			c := counter{
-				lang:    lang,
-				counter: 0,
+			c := Counter{
+				Lang:    lang,
+				Counter: 0,
 			}
 			stats.counters = append(stats.counters, c)
 			continue
 		}
-		stats.counters[stats.langs[lang]].counter++
+		stats.counters[stats.langs[lang]].Counter++
 	}
 
 	stats.reposCount = 1
