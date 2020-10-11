@@ -18,7 +18,7 @@ type Response struct {
 	Username  string               `json:"user"`
 }
 
-func getLanguages(w http.ResponseWriter, req *http.Request) {
+func getLanguages(w http.ResponseWriter, req *http.Request, tempPath string) {
 
 	if req.Method != "GET" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -63,7 +63,7 @@ func getLanguages(w http.ResponseWriter, req *http.Request) {
 
 	l := logrus.New()
 
-	stats := stats.GetStatisticsAsync("/tmp/polyglot", repos, l)
+	stats := stats.GetStatisticsAsync(tempPath, repos, l)
 	firstLanguages := stats.FirstLanguages(int(limit))
 
 	response := &Response{
@@ -86,9 +86,11 @@ func getLanguages(w http.ResponseWriter, req *http.Request) {
 	fmt.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusOK)
 }
 
-func Serve(host string, port string) {
+func Serve(host string, port string, tempPath string) {
 
-	http.HandleFunc("/", getLanguages)
+	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+		getLanguages(w, req, tempPath)
+	})
 	serverAddress := host + ":" + port
 
 	listener, err := net.Listen("tcp", ":"+port)

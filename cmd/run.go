@@ -45,14 +45,14 @@ func Run(cmd *cobra.Command, args []string) {
 	if useServer {
 		host, _ := cmd.Flags().GetString("host")
 		port, _ := cmd.Flags().GetString("port")
-		server.Serve(host, port)
+		server.Serve(host, port, tempPath)
 	} else {
 		username, err := cmd.Flags().GetString("username")
 		if err != nil {
 			panic(err)
 		}
 		if username == "" {
-			fmt.Println("required flag(s) \"username\" not set")
+			fmt.Println("required flag(s) \"username\" not set\n\n")
 			cmd.Help()
 			os.Exit(1)
 		}
