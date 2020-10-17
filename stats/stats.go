@@ -80,23 +80,16 @@ func getStatsFromRepo(repo, tempPath, provider string, l *log.Logger) (repositor
 	var path string
 	var err error
 
-	switch provider {
-	case "github":
-		gh := github.Downloader{}
-		path, err = gh.Download(repo, tempPath, l)
-		if err != nil {
-			l.Error(err)
-		}
+	var downloader interface{} = github.Downloader{}
+	if provider == "gitlab" {
+		downloader = gitlab.Downloader{}
+	}
 
-		break
-	case "gitlab":
-		gl := gitlab.Downloader{}
-		path, err = gl.Download(repo, tempPath, l)
-		if err != nil {
-			l.Error(err)
-		}
+	tDownloader := downloader.(repository.Downloader)
 
-		break
+	path, err = tDownloader.Download(repo, tempPath, l)
+	if err != nil {
+		l.Error(err)
 	}
 
 	files := repository.GetFiles(path, l)
