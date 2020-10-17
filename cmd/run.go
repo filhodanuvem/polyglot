@@ -72,13 +72,14 @@ func Run(cmd *cobra.Command, args []string) {
 		switch provider {
 		case "github":
 			repos, err = github.GetRepositories(username)
-			if err != nil {
-				l.Println(err)
-			}
 			break
 		case "gitlab":
 			repos, err = gitlab.GetRepositories(username)
 			break
+		}
+
+		if err != nil {
+			l.Println(err)
 		}
 
 		stats := stats.GetStatisticsAsync(tempPath, provider, repos, l)

@@ -53,11 +53,11 @@ func GetStatisticsAsync(tempPath, provider string, repos []string, l *log.Logger
 	return resultStats
 }
 
-func GetStatisticsSync(tempPath string, repos []string, l *log.Logger) repository.Statistics {
+func GetStatisticsSync(tempPath, provider string, repos []string, l *log.Logger) repository.Statistics {
 	var resultStats repository.Statistics
 	c := 0
 	for i := range repos {
-		stats, err := getStatsFromRepo(repos[i], tempPath, "", l)
+		stats, err := getStatsFromRepo(repos[i], tempPath, provider, l)
 		if err != nil {
 			l.Error(err)
 			continue
