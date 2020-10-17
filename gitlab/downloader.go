@@ -11,7 +11,7 @@ import (
 type Downloader struct {
 }
 
-func (d *Downloader) Download(url, dest string, l *log.Logger) (string, error) {
+func (d Downloader) Download(url, dest string, l *log.Logger) (string, error) {
 	l.WithFields(log.Fields{
 		"repo": url,
 		"dest": dest,
