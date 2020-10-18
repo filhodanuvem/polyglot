@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/filhodanuvem/polyglot/github"
+	"github.com/filhodanuvem/polyglot/gitlab"
 	"github.com/filhodanuvem/polyglot/server"
 	"github.com/filhodanuvem/polyglot/stats"
 	log "github.com/sirupsen/logrus"
@@ -60,11 +61,28 @@ func Run(cmd *cobra.Command, args []string) {
 			cmd.Help()
 			os.Exit(1)
 		}
-		repos, err := github.GetRepositories(username)
+
+		provider, err := cmd.Flags().GetString("provider")
+		if err != nil {
+			panic(err)
+		}
+
+		repos := make([]string, 0)
+
+		switch provider {
+		case "github":
+			repos, err = github.GetRepositories(username)
+			break
+		case "gitlab":
+			repos, err = gitlab.GetRepositories(username)
+			break
+		}
+
 		if err != nil {
 			l.Println(err)
 		}
-		stats := stats.GetStatisticsAsync(tempPath, repos, l)
+
+		stats := stats.GetStatisticsAsync(tempPath, provider, repos, l)
 		fmt.Printf("First 5 languages\n%+v\n", stats.FirstLanguages(5))
 
 	}

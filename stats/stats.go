@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/filhodanuvem/polyglot/github"
+	"github.com/filhodanuvem/polyglot/gitlab"
 	"github.com/filhodanuvem/polyglot/repository"
 	log "github.com/sirupsen/logrus"
 )
@@ -11,7 +12,7 @@ import (
 var limitRepos = 100
 var limitChannels = 30
 
-func GetStatisticsAsync(tempPath string, repos []string, l *log.Logger) repository.Statistics {
+func GetStatisticsAsync(tempPath, provider string, repos []string, l *log.Logger) repository.Statistics {
 	statsChan := make(chan repository.Statistics, limitRepos)
 	terminated := make(chan bool, limitChannels)
 	count := 0
@@ -21,7 +22,7 @@ func GetStatisticsAsync(tempPath string, repos []string, l *log.Logger) reposito
 			defer func() {
 				terminated <- true
 			}()
-			stats, err := getStatsFromRepo(repo, tempPath, l)
+			stats, err := getStatsFromRepo(repo, tempPath, provider, l)
 			if err != nil {
 				l.Error(err)
 				return
@@ -52,11 +53,11 @@ func GetStatisticsAsync(tempPath string, repos []string, l *log.Logger) reposito
 	return resultStats
 }
 
-func GetStatisticsSync(tempPath string, repos []string, l *log.Logger) repository.Statistics {
+func GetStatisticsSync(tempPath, provider string, repos []string, l *log.Logger) repository.Statistics {
 	var resultStats repository.Statistics
 	c := 0
 	for i := range repos {
-		stats, err := getStatsFromRepo(repos[i], tempPath, l)
+		stats, err := getStatsFromRepo(repos[i], tempPath, provider, l)
 		if err != nil {
 			l.Error(err)
 			continue
@@ -71,12 +72,22 @@ func GetStatisticsSync(tempPath string, repos []string, l *log.Logger) repositor
 	return resultStats
 }
 
-func getStatsFromRepo(repo, tempPath string, l *log.Logger) (repository.Statistics, error) {
+func getStatsFromRepo(repo, tempPath, provider string, l *log.Logger) (repository.Statistics, error) {
 	if _, err := os.Stat(tempPath); os.IsNotExist(err) {
 		os.MkdirAll(tempPath, os.ModePerm)
 	}
-	gh := github.Downloader{}
-	path, err := gh.Download(repo, tempPath, l)
+
+	var path string
+	var err error
+
+	var downloader interface{} = github.Downloader{}
+	if provider == "gitlab" {
+		downloader = gitlab.Downloader{}
+	}
+
+	tDownloader := downloader.(repository.Downloader)
+
+	path, err = tDownloader.Download(repo, tempPath, l)
 	if err != nil {
 		l.Error(err)
 	}

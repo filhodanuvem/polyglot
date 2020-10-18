@@ -28,6 +28,7 @@ Flags:
   -s, --server            Run polyglot API Server
   --port string           IP address for the server (default "127.0.0.1")
   --host string           Port for the server (default "8080")
+  --provider string       Repository Provider, options [github, gitlab] (default "github")
 ```
 
 Server Usage:

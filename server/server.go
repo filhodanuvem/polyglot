@@ -42,6 +42,10 @@ func getLanguages(w http.ResponseWriter, req *http.Request, config Config) {
 	username := query.Get("user")
 	queryLimit := query.Get("limit")
 
+	provider := "github"
+
+	provider = query.Get("provider")
+
 	limit, err := strconv.ParseInt(queryLimit, 10, 64)
 
 	if err != nil {
@@ -70,7 +74,7 @@ func getLanguages(w http.ResponseWriter, req *http.Request, config Config) {
 		return
 	}
 
-	stats := stats.GetStatisticsAsync(config.TempPath, repos, config.Log)
+	stats := stats.GetStatisticsAsync(config.TempPath, provider, repos, config.Log)
 	firstLanguages := stats.FirstLanguages(int(limit))
 
 	response := &Response{

@@ -18,6 +18,7 @@ var rootCmd = &cobra.Command{
 func main() {
 	rootCmd.Flags().StringP("username", "u", "", "Username")
 	rootCmd.Flags().StringP("path", "p", "/tmp/polyglot", "Path where to download the repositories")
+	rootCmd.Flags().StringP("provider", "", "github", "Repository Provider, options [github, gitlab]")
 	rootCmd.PersistentFlags().StringP("log", "l", "fatal", "Log verbosity, options [debug, info, warning, error, fatal]")
 	rootCmd.PersistentFlags().StringP("output", "o", "", "Path to log in a file")
 	rootCmd.Flags().BoolP("server", "s", false, "Run polyglot API Server")
