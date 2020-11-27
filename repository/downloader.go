@@ -1,9 +1,10 @@
 package repository
 
 import (
+	"github.com/filhodanuvem/polyglot/source"
 	log "github.com/sirupsen/logrus"
 )
 
 type Downloader interface {
-	Download(url, dest string, l *log.Logger) (string, error)
+	Download(repo source.ProviderRepo, dest string, l *log.Logger) (string, error)
 }

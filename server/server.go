@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/filhodanuvem/polyglot/github"
 	"github.com/filhodanuvem/polyglot/repository"
+	"github.com/filhodanuvem/polyglot/source/github"
 	"github.com/filhodanuvem/polyglot/stats"
 	"github.com/sirupsen/logrus"
 )

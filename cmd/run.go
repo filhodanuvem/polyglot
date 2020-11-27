@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/filhodanuvem/polyglot/github"
-	"github.com/filhodanuvem/polyglot/gitlab"
 	"github.com/filhodanuvem/polyglot/server"
+	"github.com/filhodanuvem/polyglot/source"
+	"github.com/filhodanuvem/polyglot/source/github"
+	"github.com/filhodanuvem/polyglot/source/gitlab"
 	"github.com/filhodanuvem/polyglot/stats"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -67,7 +68,7 @@ func Run(cmd *cobra.Command, args []string) {
 			panic(err)
 		}
 
-		repos := make([]string, 0)
+		repos := make([]source.ProviderRepo, 0)
 
 		switch provider {
 		case "github":
