@@ -3,22 +3,23 @@ package stats
 import (
 	"os"
 
-	"github.com/filhodanuvem/polyglot/github"
-	"github.com/filhodanuvem/polyglot/gitlab"
 	"github.com/filhodanuvem/polyglot/repository"
+	"github.com/filhodanuvem/polyglot/source"
+	"github.com/filhodanuvem/polyglot/source/github"
+	"github.com/filhodanuvem/polyglot/source/gitlab"
 	log "github.com/sirupsen/logrus"
 )
 
 var limitRepos = 100
 var limitChannels = 30
 
-func GetStatisticsAsync(tempPath, provider string, repos []string, l *log.Logger) repository.Statistics {
+func GetStatisticsAsync(tempPath, provider string, repos []source.ProviderRepos, l *log.Logger) repository.Statistics {
 	statsChan := make(chan repository.Statistics, limitRepos)
 	terminated := make(chan bool, limitChannels)
 	count := 0
 
 	for i := range repos {
-		go func(repo string) {
+		go func(repo source.ProviderRepos) {
 			defer func() {
 				terminated <- true
 			}()
@@ -53,7 +54,7 @@ func GetStatisticsAsync(tempPath, provider string, repos []string, l *log.Logger
 	return resultStats
 }
 
-func GetStatisticsSync(tempPath, provider string, repos []string, l *log.Logger) repository.Statistics {
+func GetStatisticsSync(tempPath, provider string, repos []source.ProviderRepos, l *log.Logger) repository.Statistics {
 	var resultStats repository.Statistics
 	c := 0
 	for i := range repos {
@@ -72,7 +73,7 @@ func GetStatisticsSync(tempPath, provider string, repos []string, l *log.Logger)
 	return resultStats
 }
 
-func getStatsFromRepo(repo, tempPath, provider string, l *log.Logger) (repository.Statistics, error) {
+func getStatsFromRepo(repo source.ProviderRepos, tempPath, provider string, l *log.Logger) (repository.Statistics, error) {
 	if _, err := os.Stat(tempPath); os.IsNotExist(err) {
 		os.MkdirAll(tempPath, os.ModePerm)
 	}
@@ -87,7 +88,7 @@ func getStatsFromRepo(repo, tempPath, provider string, l *log.Logger) (repositor
 
 	tDownloader := downloader.(repository.Downloader)
 
-	path, err = tDownloader.Download(repo, tempPath, l)
+	path, err = tDownloader.Download(repo.URL, tempPath, repo.DefaultBranch, l)
 	if err != nil {
 		l.Error(err)
 	}

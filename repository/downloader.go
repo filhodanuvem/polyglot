@@ -5,5 +5,5 @@ import (
 )
 
 type Downloader interface {
-	Download(url, dest string, l *log.Logger) (string, error)
+	Download(url, dest, defaultBranch string, l *log.Logger) (string, error)
 }
