@@ -18,8 +18,8 @@ func (r response) GetUrl() string {
 	return r.URL
 }
 
-func GetRepositories(username string) ([]source.ProviderRepos, error) {
-	repos := []source.ProviderRepos{}
+func GetRepositories(username string) ([]source.ProviderRepo, error) {
+	repos := []source.ProviderRepo{}
 	resp, err := http.Get(fmt.Sprintf("https://gitlab.com/api/v4/users/%s/projects", username))
 	if err != nil {
 		return repos, err
@@ -31,7 +31,7 @@ func GetRepositories(username string) ([]source.ProviderRepos, error) {
 	json.Unmarshal(body, &jsonResponse)
 
 	for _, repo := range jsonResponse {
-		repos = append(repos, source.ProviderRepos{
+		repos = append(repos, source.ProviderRepo{
 			URL:           repo.URL,
 			DefaultBranch: repo.DefaultBranch,
 		})

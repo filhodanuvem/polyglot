@@ -13,13 +13,13 @@ import (
 var limitRepos = 100
 var limitChannels = 30
 
-func GetStatisticsAsync(tempPath, provider string, repos []source.ProviderRepos, l *log.Logger) repository.Statistics {
+func GetStatisticsAsync(tempPath, provider string, repos []source.ProviderRepo, l *log.Logger) repository.Statistics {
 	statsChan := make(chan repository.Statistics, limitRepos)
 	terminated := make(chan bool, limitChannels)
 	count := 0
 
 	for i := range repos {
-		go func(repo source.ProviderRepos) {
+		go func(repo source.ProviderRepo) {
 			defer func() {
 				terminated <- true
 			}()
@@ -54,7 +54,7 @@ func GetStatisticsAsync(tempPath, provider string, repos []source.ProviderRepos,
 	return resultStats
 }
 
-func GetStatisticsSync(tempPath, provider string, repos []source.ProviderRepos, l *log.Logger) repository.Statistics {
+func GetStatisticsSync(tempPath, provider string, repos []source.ProviderRepo, l *log.Logger) repository.Statistics {
 	var resultStats repository.Statistics
 	c := 0
 	for i := range repos {
@@ -73,7 +73,7 @@ func GetStatisticsSync(tempPath, provider string, repos []source.ProviderRepos, 
 	return resultStats
 }
 
-func getStatsFromRepo(repo source.ProviderRepos, tempPath, provider string, l *log.Logger) (repository.Statistics, error) {
+func getStatsFromRepo(repo source.ProviderRepo, tempPath, provider string, l *log.Logger) (repository.Statistics, error) {
 	if _, err := os.Stat(tempPath); os.IsNotExist(err) {
 		os.MkdirAll(tempPath, os.ModePerm)
 	}
@@ -88,7 +88,7 @@ func getStatsFromRepo(repo source.ProviderRepos, tempPath, provider string, l *l
 
 	tDownloader := downloader.(repository.Downloader)
 
-	path, err = tDownloader.Download(repo.URL, tempPath, repo.DefaultBranch, l)
+	path, err = tDownloader.Download(repo, tempPath, l)
 	if err != nil {
 		l.Error(err)
 	}

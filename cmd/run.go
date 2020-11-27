@@ -68,7 +68,7 @@ func Run(cmd *cobra.Command, args []string) {
 			panic(err)
 		}
 
-		repos := make([]source.ProviderRepos, 0)
+		repos := make([]source.ProviderRepo, 0)
 
 		switch provider {
 		case "github":

@@ -1,6 +1,6 @@
 package source
 
-type ProviderRepos struct {
+type ProviderRepo struct {
 	URL           string
 	DefaultBranch string
 }

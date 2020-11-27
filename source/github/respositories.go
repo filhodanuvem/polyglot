@@ -16,8 +16,8 @@ type response struct {
 	}
 }
 
-func GetRepositories(username string) ([]source.ProviderRepos, error) {
-	repos := []source.ProviderRepos{}
+func GetRepositories(username string) ([]source.ProviderRepo, error) {
+	repos := []source.ProviderRepo{}
 	resp, err := http.Get(fmt.Sprintf("https://api.github.com/search/repositories?q=user:%s", username))
 	if err != nil {
 		return repos, err
@@ -29,7 +29,7 @@ func GetRepositories(username string) ([]source.ProviderRepos, error) {
 	json.Unmarshal(body, &jsonResponse)
 
 	for i := range jsonResponse.Items {
-		repos = append(repos, source.ProviderRepos{
+		repos = append(repos, source.ProviderRepo{
 			URL:           jsonResponse.Items[i].URL,
 			DefaultBranch: jsonResponse.Items[i].DefaultBranch,
 		})
