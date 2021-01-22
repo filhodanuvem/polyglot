@@ -1,21 +1,20 @@
-# Polyglot ![CI](https://github.com/filhodanuvem/polyglot/workflows/CI/badge.svg)
+<div align="center"><h1>Polyglot  <img src="https://github.com/filhodanuvem/polyglot/workflows/CI/badge.svg"></h1></div>
 
-What are your favorite programming languages? 👅
-Polyglot tells you that based in a github username.
+> ### What are your favorite programming languages? 👅
+## __**Polyglot**__ tells you that based in a github username.
 
-# How to use
+---
+# How to use:
 
 ```bash
-polyglot --username=filhodanuvem
+polyglot --username=filhodanuvem # Get most used languages
 ```
 
 ```bash
-polyglot -s #To run on server mode
+polyglot -s # To run on server mode
 ```
 
-Usage:
-
-```bash
+```
 Usage:
   Polyglot [flags]
 
@@ -31,7 +30,7 @@ Flags:
   --provider string       Repository Provider, options [github, gitlab] (default "github")
 ```
 
-Server Usage:
+> ## Server usage:
 
 ```bash
 curl http://127.0.0.1:8080/\?user\=santana125\&limit\=10
