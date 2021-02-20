@@ -15,14 +15,10 @@ var limitChannels = 30
 
 func GetStatisticsAsync(tempPath, provider string, repos []source.ProviderRepo, l *log.Logger) repository.Statistics {
 	statsChan := make(chan repository.Statistics, limitRepos)
-	terminated := make(chan bool, limitChannels)
 	count := 0
 
 	for i := range repos {
 		go func(repo source.ProviderRepo) {
-			defer func() {
-				terminated <- true
-			}()
 			stats, err := getStatsFromRepo(repo, tempPath, provider, l)
 			if err != nil {
 				l.Error(err)
@@ -36,19 +32,12 @@ func GetStatisticsAsync(tempPath, provider string, repos []source.ProviderRepo, 
 		}
 	}
 
-	l.Println(">>>>>> Waiting for terminated")
-	for i := 0; i < count; i++ {
-		select {
-		case <-terminated:
-		}
-	}
-	close(statsChan)
-
-	l.Println(">>>>>>> Waiting for statsChan")
 	var resultStats repository.Statistics
-	for range statsChan {
-		stats := <-statsChan
-		resultStats.Merge(&stats)
+	for range repos {
+		select {
+		case stats := <-statsChan:
+			resultStats.Merge(&stats)
+		}
 	}
 
 	return resultStats
