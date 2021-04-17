@@ -17,6 +17,8 @@ var excludeList = map[string]bool{
 	"XML Property List counter": true,
 	"Gradle":                    true,
 	"XML":                       true,
+	"HTML":                      true,
+	"CSS":                      true,
 }
 
 type Statistics struct {
