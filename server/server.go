@@ -6,6 +6,7 @@ import (
 	"net"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/filhodanuvem/polyglot/repository"
 	"github.com/filhodanuvem/polyglot/source/github"
@@ -16,6 +17,12 @@ import (
 type Response struct {
 	Languages []repository.Counter `json:"languages"`
 	Username  string               `json:"user"`
+	Debug     debugResponse
+}
+
+type debugResponse struct{
+	TimeToGetRepositoriesMs int64
+	TimeToGetStatisticsMs int64
 }
 
 type Config struct {
@@ -59,7 +66,10 @@ func getLanguages(w http.ResponseWriter, req *http.Request, config Config) {
 		return
 	}
 
+	beforeGetRepositories := time.Now()
 	repos, err := github.GetRepositories(username)
+	diff := time.Now().Sub(beforeGetRepositories)
+	timeToGetRepositoriesMs := diff.Milliseconds()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"error": "` + err.Error() + `"} `))
@@ -74,12 +84,19 @@ func getLanguages(w http.ResponseWriter, req *http.Request, config Config) {
 		return
 	}
 
+	beforeGetStatistics := time.Now()
 	stats := stats.GetStatisticsAsync(config.TempPath, provider, repos, config.Log)
+	diff = time.Now().Sub(beforeGetStatistics)
+	timeToGetStatisticsMs := diff.Milliseconds()
 	firstLanguages := stats.FirstLanguages(int(limit))
 
 	response := &Response{
 		Languages: firstLanguages,
 		Username:  username,
+		Debug: debugResponse{
+			TimeToGetRepositoriesMs: timeToGetRepositoriesMs,
+			TimeToGetStatisticsMs: timeToGetStatisticsMs,
+		},
 	}
 
 	responseJSON, err := json.Marshal(response)
