@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: polyglot-server
+  labels:
+    app: polyglot-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: polyglot-server
+  template:
+    metadata:
+      labels:
+        app: polyglot-server
+    spec:
+      containers:
+      - name: polyglot-server
+        image: cloudson/polyglot:latest
+        ports:
+        - containerPort: 8080
