@@ -39,7 +39,7 @@ func getLanguages(w http.ResponseWriter, req *http.Request, config Config) {
 	w.Header().Set("Content-Type", "application/json")
 
 	query := req.URL.Query()
-	username := query.Get("user")
+	username := query.Get("username")
 	queryLimit := query.Get("limit")
 
 	provider := "github"
