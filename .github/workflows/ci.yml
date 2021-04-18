@@ -33,7 +33,11 @@ jobs:
         name: polyglot-linux64
         path: ./polyglot
     
+    - uses: docker/login-action@v1
+      name: Docker login 
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+       
     - name: Docker push registry
-      run: |
-        docker login --username $DOCKERHUB_USERNAME --password-stdin $DOCKERHUB_TOKEN 
-        ./scripts/build.sh
+      run: ./scripts/build.sh
