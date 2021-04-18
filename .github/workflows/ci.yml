@@ -32,3 +32,6 @@ jobs:
       with:
         name: polyglot-linux64
         path: ./polyglot
+    
+    - name: Docker push registry
+      run: ./scripts/build.sh
