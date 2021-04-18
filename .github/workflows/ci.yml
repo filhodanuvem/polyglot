@@ -8,11 +8,12 @@ on:
     - main
 jobs:
   build-linux:
-    name: Build linux
+    name: Build and tests linux
     runs-on: ubuntu-latest
     steps:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v1
+    
     - name: Set up Go 1.14
       uses: actions/setup-go@v2
       with:
@@ -27,12 +28,23 @@ jobs:
     - name: Run polyglot
       run: ./polyglot --username=filhodanuvem --log=info
 
+  upload-artifacts:
+    needs: build-linux
+    name: Upload artifacts
+    runs-on: ubuntu-latest
+    steps:
     - uses: actions/upload-artifact@master
       name: Generating artifact
       with:
         name: polyglot-linux64
         path: ./polyglot
-    
+
+
+  deploy-prod:
+    needs: build-linux
+    name: Deploy prod
+    runs-on: ubuntu-latest
+    steps:
     - uses: docker/login-action@v1
       name: Docker login 
       with:
