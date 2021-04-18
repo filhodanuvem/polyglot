@@ -66,8 +66,8 @@ jobs:
       run: ./scripts/build.sh
   
   deploy:
-    needs: tests
-    name: packaging
+    needs: packaging
+    name: deploy
     runs-on: ubuntu-latest
     environment: azure-prod
     steps: 
