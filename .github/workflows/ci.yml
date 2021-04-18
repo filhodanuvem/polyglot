@@ -1,5 +1,6 @@
 name: CI
 on:
+  workflow_dispatch:
   push:
     branches:
     - main
@@ -66,10 +67,12 @@ jobs:
       run: ./scripts/build.sh
   
   deploy:
-    needs: packaging
     name: deploy
+    needs: packaging
+    environment: 
+      name: azure-prod
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    environment: azure-prod
     steps: 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v1
