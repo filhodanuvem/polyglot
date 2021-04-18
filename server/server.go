@@ -138,7 +138,7 @@ func Serve(config Config) {
 	fmt.Println("\033[34m| .__/ \\___/|_|\\__, |\\__, |_|\\___/ \\__|")
 	fmt.Println("\033[35m|_|            |___/ |___/\033[0m")
 	fmt.Printf("\nServer started at http://%v\n\n", serverAddress)
-	serverErr := http.ListenAndServe(serverAddress, nil)
+	serverErr := http.ListenAndServe(":" + config.Port, nil)
 	if serverErr != nil {
 		l.Error(serverErr)
 	}
