@@ -30,7 +30,7 @@ jobs:
     
   tests:
     needs: build
-    name: Upload artifacts
+    name: Automated tests
     runs-on: ubuntu-latest
     steps:
     - name: Check out code into the Go module directory
@@ -45,12 +45,12 @@ jobs:
       run: go test ./cmd ./source ./language ./repository -v
 
     - name: Run polyglot
-      run: ./polyglot --username=filhodanuvem --log=info
+      run: go run main.go --username=filhodanuvem --log=info
 
 
-  deploy-prod:
+  packaging:
     needs: tests
-    name: Deploy prod
+    name: packaging
     runs-on: ubuntu-latest
     steps:
     - name: Check out code into the Go module directory
