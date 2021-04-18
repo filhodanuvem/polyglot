@@ -35,5 +35,5 @@ jobs:
     
     - name: Docker push registry
       run: |
-        docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN 
+        docker login --username $DOCKERHUB_USERNAME --password-stdin $DOCKERHUB_TOKEN 
         ./scripts/build.sh
