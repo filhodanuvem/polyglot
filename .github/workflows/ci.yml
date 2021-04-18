@@ -34,6 +34,6 @@ jobs:
         path: ./polyglot
     
     - name: Docker push registry
-      run:
-      - docker login -u DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN 
-      - ./scripts/build.sh
+      run: |
+        docker login -u DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN 
+        ./scripts/build.sh
