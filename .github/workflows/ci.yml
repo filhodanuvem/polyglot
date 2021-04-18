@@ -71,9 +71,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: azure-prod
     steps: 
-      - name: Check out code into the Go module directory
+    - name: Check out code into the Go module directory
       uses: actions/checkout@v1
 
-      - name: k8s apply  
-        run: kubectl apply -f ./resources/kubernetes/
+    - name: k8s apply  
+      run: kubectl apply -f ./resources/kubernetes/
       
