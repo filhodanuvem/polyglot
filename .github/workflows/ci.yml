@@ -77,6 +77,13 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v1
 
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Get credentials 
+      run: az aks get-credentials --resource-group default --name azure
+
     - name: k8s apply  
       run: kubectl apply -f ./resources/kubernetes/
       
