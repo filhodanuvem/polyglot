@@ -82,7 +82,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Get credentials 
-      run: az aks get-credentials --resource-group default --name azure
+      run: az aks get-credentials --resource-group default --name default
 
     - name: k8s apply  
       run: kubectl apply -f ./resources/kubernetes/

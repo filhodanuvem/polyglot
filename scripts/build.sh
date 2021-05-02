@@ -7,3 +7,4 @@ LATEST="${IMAGE}:latest"
 
 docker build . -t $TAG -t $LATEST
 docker push $TAG
+docker push $LATEST
