@@ -85,5 +85,5 @@ jobs:
       run: az aks get-credentials --resource-group default --name default
 
     - name: k8s apply  
-      run: kubectl apply -f ./resources/kubernetes/
+      run: ./scripts/deploy.sh
       

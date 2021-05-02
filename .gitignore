@@ -2,3 +2,4 @@ temp
 .DS_Store
 .vscode
 polyglot
+./resources/kubernetes/deployment.yaml

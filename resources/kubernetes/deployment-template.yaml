@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: hello-world
-          image: cloudson/polyglot:v2
+          image: cloudson/polyglot:{{RELEASE_TAG}}
           ports:
             - containerPort: 8080
               protocol: TCP
