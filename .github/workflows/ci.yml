@@ -24,6 +24,7 @@ jobs:
       uses: Legion2/swagger-ui-action@v1
       with:
         output: swagger-ui
+        spec-file: doc.yaml
 
     - name: Build linux
       run:  go build -o polyglot main.go
