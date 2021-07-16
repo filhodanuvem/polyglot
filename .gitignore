@@ -3,3 +3,4 @@ temp
 .vscode
 polyglot
 ./resources/kubernetes/deployment.yaml
+docs

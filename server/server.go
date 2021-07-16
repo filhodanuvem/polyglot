@@ -8,10 +8,13 @@ import (
 	"strconv"
 	"time"
 
+	_ "github.com/filhodanuvem/polyglot/docs"
 	"github.com/filhodanuvem/polyglot/repository"
 	"github.com/filhodanuvem/polyglot/source/github"
 	"github.com/filhodanuvem/polyglot/stats"
+	"github.com/go-chi/chi"
 	"github.com/sirupsen/logrus"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 type Response struct {
@@ -20,9 +23,9 @@ type Response struct {
 	Debug     debugResponse
 }
 
-type debugResponse struct{
+type debugResponse struct {
 	TimeToGetRepositoriesMs int64
-	TimeToGetStatisticsMs int64
+	TimeToGetStatisticsMs   int64
 }
 
 type Config struct {
@@ -32,7 +35,16 @@ type Config struct {
 	Log      *logrus.Logger
 }
 
-func getLanguages(w http.ResponseWriter, req *http.Request, config Config) {
+// GetLanguages godoc
+// @Summary Get languagens
+// @Description Get languagens by user
+// @ID get-languages-by=username
+// @Accept  json
+// @Produce  json
+// @Param  username query string true "github username"
+// @Success 200
+// @Router /search [get]
+func GetLanguages(w http.ResponseWriter, req *http.Request, config Config) {
 
 	l := config.Log
 
@@ -95,7 +107,7 @@ func getLanguages(w http.ResponseWriter, req *http.Request, config Config) {
 		Username:  username,
 		Debug: debugResponse{
 			TimeToGetRepositoriesMs: timeToGetRepositoriesMs,
-			TimeToGetStatisticsMs: timeToGetStatisticsMs,
+			TimeToGetStatisticsMs:   timeToGetStatisticsMs,
 		},
 	}
 
@@ -114,14 +126,33 @@ func getLanguages(w http.ResponseWriter, req *http.Request, config Config) {
 	l.Printf("%v - %v - %v \n", req.Method, req.URL, http.StatusOK)
 }
 
+// @title Swagger Example API
+// @version 1.0
+// @description This is a sample server Petstore server.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @BasePath /
 func Serve(config Config) {
 
 	l := config.Log
-
-	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-		getLanguages(w, req, config)
-	})
 	serverAddress := config.Host + ":" + config.Port
+	swaggerURL := fmt.Sprintf("http://%s/swagger/doc.json", serverAddress)
+	r := chi.NewRouter()
+	r.Get("/swagger/*", httpSwagger.Handler(
+		httpSwagger.URL(swaggerURL), //The url pointing to API definition"
+	))
+	fmt.Println(swaggerURL)
+
+	r.Get("/search", func(w http.ResponseWriter, req *http.Request) {
+		GetLanguages(w, req, config)
+	})
 
 	listener, err := net.Listen("tcp", ":"+config.Port)
 
@@ -138,7 +169,7 @@ func Serve(config Config) {
 	fmt.Println("\033[34m| .__/ \\___/|_|\\__, |\\__, |_|\\___/ \\__|")
 	fmt.Println("\033[35m|_|            |___/ |___/\033[0m")
 	fmt.Printf("\nServer started at http://%v\n\n", serverAddress)
-	serverErr := http.ListenAndServe(":" + config.Port, nil)
+	serverErr := http.ListenAndServe(":"+config.Port, r)
 	if serverErr != nil {
 		l.Error(serverErr)
 	}
