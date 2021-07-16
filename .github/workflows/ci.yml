@@ -19,6 +19,11 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: 1.16
+    
+    - name: Generate Swagger UI
+      uses: Legion2/swagger-ui-action@v1
+      with:
+        output: swagger-ui
 
     - name: Build linux
       run:  go build -o polyglot main.go
@@ -28,11 +33,6 @@ jobs:
       with:
         name: polyglot-linux64
         path: ./polyglot
-    
-    - name: Generate Swagger UI
-      uses: Legion2/swagger-ui-action@v1
-      with:
-        output: swagger-ui
     
   tests:
     needs: build
