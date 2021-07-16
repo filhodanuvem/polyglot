@@ -19,13 +19,7 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: 1.16
-    
-    - name: Generate Swagger UI
-      run: | 
-        wget https://github.com/swaggo/swag/releases/download/v1.7.0/swag_1.7.0_Linux_x86_64.tar.gz
-        tar -xzf swag_1.7.0_Linux_x86_64.tar.gz
-        rm swag_1.7.0_Linux_x86_64.tar.gz
-        ./swag init -g server/server.go
+
 
     - name: Build linux
       run:  go build -o polyglot main.go
