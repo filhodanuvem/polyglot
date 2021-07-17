@@ -67,24 +67,5 @@ jobs:
     - name: Docker push registry
       run: ./scripts/build.sh
   
-  deploy:
-    name: deploy
-    needs: packaging
-    environment: 
-      name: azure-prod
-    if: ${{ github.ref == 'refs/heads/main' }}
-    runs-on: ubuntu-latest
-    steps: 
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v1
-
-    - uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Get credentials 
-      run: az aks get-credentials --resource-group default --name default
-
-    - name: k8s apply  
-      run: ./scripts/deploy.sh
+  
       
