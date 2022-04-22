@@ -8,7 +8,6 @@ require (
 	github.com/go-enry/go-enry/v2 v2.5.2
 	github.com/sirupsen/logrus v1.6.0
 	github.com/spf13/cobra v1.0.0
-	github.com/swaggo/http-swagger v1.0.0
-	github.com/swaggo/swag v1.7.0
-	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
+	github.com/swaggo/http-swagger v1.2.6
+	github.com/swaggo/swag v1.7.9
 )
